@@ -1,12 +1,6 @@
 //your code here
-  const allImages = [
-            "https://picsum.photos/id/237/200/300",
-            "https://picsum.photos/seed/picsum/200/300",
-            "https://picsum.photos/200/300?grayscale",
-            "https://picsum.photos/200/300/",
-            "https://picsum.photos/200/300.jpg"
-        ];
-  const imageContainer = document.getElementById("imageContainer");
+   const classNames = ["img1", "img2", "img3", "img4", "img5"];
+ const imageContainer = document.getElementById("imageContainer");
         const resetButton = document.getElementById("reset");
         const verifyButton = document.getElementById("verify");
         const message = document.getElementById("para");
@@ -14,20 +8,21 @@
         let selectedTiles = [];
         let images = [];
 
-  function shuffleImages() {
-            let tempImages = [...allImages];
-            let duplicate = tempImages[Math.floor(Math.random() * tempImages.length)];
-            tempImages.push(duplicate);
-            images = tempImages.sort(() => Math.random() - 0.5);
+        function shuffleImages() {
+            let tempClasses = [...classNames];
+            let duplicate = tempClasses[Math.floor(Math.random() * tempClasses.length)];
+            tempClasses.push(duplicate);
+            images = tempClasses.sort(() => Math.random() - 0.5);
         }
- function displayImages() {
+
+        function displayImages() {
             imageContainer.innerHTML = "";
             shuffleImages();
-            images.forEach((src, index) => {
+            images.forEach((className, index) => {
                 let img = document.createElement("img");
-                img.src = src;
-                img.classList.add("tile");
+                img.classList.add("tile", className);
                 img.dataset.index = index;
+                img.dataset.type = className;
                 img.addEventListener("click", () => selectTile(img));
                 imageContainer.appendChild(img);
             });
@@ -43,7 +38,7 @@
         }
 
         function verifySelection() {
-            if (selectedTiles[0].src === selectedTiles[1].src) {
+            if (selectedTiles[0].dataset.type === selectedTiles[1].dataset.type) {
                 message.textContent = "You are a human. Congratulations!";
             } else {
                 message.textContent = "We can't verify you as a human. You selected the non-identical tiles.";
